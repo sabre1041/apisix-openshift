@@ -1,0 +1,59 @@
+---
+
+apisix:
+  serviceAccount:
+    create: true
+    name: apisix
+
+  podAnnotations:
+    openshift.io/required-scc: anyuid
+
+  service:
+    type: ClusterIP
+    externalTrafficPolicy: null
+  
+  initContainer:
+    image: registry.redhat.io/openshift4/network-tools-rhel9
+    tag: latest
+
+  control:
+    service:
+      ip: "0.0.0.0"
+
+  ingress:
+    enabled: true
+    annotations:
+      route.openshift.io/termination: edge
+    # Set hosts property at runtime
+    # hosts:
+    #   - paths:
+    #     - /
+    #     host: apisix.<apps_subdomain>
+
+  dashboard:
+    enabled: true
+    ingress:
+      enabled: true
+      annotations:
+        route.openshift.io/termination: edge
+    # Set hosts property at runtime
+    # hosts:
+    #   - paths:
+    #     - /
+    #     host: apisix-dashboard.<apps_subdomain>
+  etcd:
+    serviceAccount:
+      name: etcd
+      create: true
+    
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      runAsNonRoot: true
+    
+    podSecurityContext:
+      fsGroup: null
+      seccompProfile:
+        type: RuntimeDefault

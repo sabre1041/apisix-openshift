@@ -1,0 +1,12 @@
+apiVersion: v2
+name: apisix-openshift
+description: Apisix OpenShift Helm Chart
+
+type: application
+
+version: 0.1.0
+
+dependencies:
+  - name: apisix
+    version: 2.11.1
+    repository: https://charts.apiseven.com
