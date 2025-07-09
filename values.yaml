@@ -24,6 +24,7 @@ apisix:
     enabled: true
     annotations:
       route.openshift.io/termination: edge
+      haproxy.router.openshift.io/timeout: 1000s
     # Set hosts property at runtime
     # hosts:
     #   - paths:
